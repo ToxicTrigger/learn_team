@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tiles
   - Enemy
+  - Attack
   layers:
   - Default
   - TransparentFX
@@ -19,11 +20,7 @@ TagManager:
   - Players
   - Enemys
   - Obstacles
-  - 
-  - 
-  - 
-  - 
-  - 
+  - PlayerAttack
   - 
   - 
   - 

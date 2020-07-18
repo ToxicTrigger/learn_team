@@ -8,6 +8,9 @@ public class Controllable : MonoBehaviour
     public float speed = 1.0f;
     private CharacterController _controller;
     private Summoner _summoner;
+    public Animator animator;
+    public ParticleSystem swing;
+    public Collider hitCollider;
     
     void Start()
     {
@@ -21,6 +24,10 @@ public class Controllable : MonoBehaviour
         var v = Input.GetAxisRaw("Vertical");
         this.movement.x = h;
         this.movement.z = v;
+        if (this.animator)
+        {
+            animator.SetFloat( "Movement" , movement.normalized.magnitude );
+        }
     }
 
     void updateRotate()
@@ -31,7 +38,10 @@ public class Controllable : MonoBehaviour
 
     void move()
     {
-        this._controller.Move(this.movement * speed);
+        if ( ! this.animator.GetBool("Attack") )
+        {
+            this._controller.Move(this.movement * speed);
+        }
     }
 
     void summon()
@@ -41,7 +51,24 @@ public class Controllable : MonoBehaviour
             _summoner.summon();
         }
     }
+
+    IEnumerator attack_time()
+    {
+        animator.SetBool("Attack" , true );
+        swing.Play();
+        hitCollider.enabled = true;
+        yield return new WaitForSeconds(0.15f);
+        animator.SetBool("Attack" , false );
+        hitCollider.enabled = false;
+    }
     
+    void attack()
+    {
+        if (Input.GetKeyDown(KeyCode.S) && this.swing && this.animator && ! this.animator.GetBool("Attack") )
+        {
+            StartCoroutine(attack_time());
+        }
+    }
 
     void Update()
     {
@@ -49,5 +76,6 @@ public class Controllable : MonoBehaviour
         this.updateRotate();
         this.move();
         this.summon();
+        this.attack();
     }
 }

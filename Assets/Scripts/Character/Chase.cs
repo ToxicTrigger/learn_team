@@ -17,7 +17,6 @@ public class Chase : State
     void Update()
     {
         if (detect == null || !detect.target_found ) return;
-
         nma.SetDestination(detect.near_target.transform.position);
     }
 }
