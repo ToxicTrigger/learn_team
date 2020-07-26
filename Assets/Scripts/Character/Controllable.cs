@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,15 +7,15 @@ public class Controllable : MonoBehaviour
 {
     public Vector3 movement;
     public float speed = 1.0f;
-    private CharacterController _controller;
     private Summoner _summoner;
     public Animator animator;
     public ParticleSystem swing;
     public Collider hitCollider;
-    
+    public float attack_cool = 0.15f;
+    public GameObject Shield;
+    public bool Shield_up;
     void Start()
     {
-        _controller = GetComponent<CharacterController>();
         _summoner = GetComponent<Summoner>();
     }
 
@@ -40,7 +41,14 @@ public class Controllable : MonoBehaviour
     {
         if ( ! this.animator.GetBool("Attack") )
         {
-            this._controller.Move(this.movement * speed);
+            if (movement.magnitude != 0)
+            {
+                var pos = this.transform.position;
+                pos.y = 3.43f;
+                var next_pos = Vector3.MoveTowards(pos, pos + (movement * speed),
+                    100.0f);
+                this.transform.position = next_pos;
+            }
         }
     }
 
@@ -57,7 +65,7 @@ public class Controllable : MonoBehaviour
         animator.SetBool("Attack" , true );
         swing.Play();
         hitCollider.enabled = true;
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(attack_cool);
         animator.SetBool("Attack" , false );
         hitCollider.enabled = false;
     }
@@ -70,6 +78,28 @@ public class Controllable : MonoBehaviour
         }
     }
 
+    void defence()
+    {
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            Shield.SetActive( true );
+            Shield_up = true;
+            GetComponent<Damageable>().guard = true;
+        }
+
+        if (Input.GetKeyUp(KeyCode.D))
+        {
+            Shield.SetActive( false );
+            Shield_up = false;
+            GetComponent<Damageable>().guard = false;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        this.GetComponent<Rigidbody>().velocity = Vector3.zero;
+    }
+
     void Update()
     {
         this.setMovement();
@@ -77,5 +107,6 @@ public class Controllable : MonoBehaviour
         this.move();
         this.summon();
         this.attack();
+        this.defence();
     }
 }

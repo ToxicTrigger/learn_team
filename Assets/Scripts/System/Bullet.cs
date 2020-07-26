@@ -11,6 +11,7 @@ public class Bullet : MonoBehaviour
     public Vector3 target;
     public bool lockOn;
     public float speed = 3.0f;
+    public bool live = true;
 
     IEnumerator hit( Damageable target )
     {
@@ -20,20 +21,34 @@ public class Bullet : MonoBehaviour
 
     void Die()
     {
-        Destroy( this.gameObject );
+        var particles = GetComponentsInChildren<ParticleSystem>();
+        foreach (var VARIABLE in particles)
+        {
+            VARIABLE.Stop();
+            if (VARIABLE.name.Equals("Range_Bullet") || VARIABLE.name.Equals("Range_light"))
+            {
+                VARIABLE.GetComponent<Renderer>().enabled = false;
+            }
+        }
+        Destroy( this.gameObject ,1.0f );
         var effect = GameObject.Instantiate(hitEffect, transform.position, Quaternion.identity);
         Destroy( effect.gameObject , 3.0f );
+        live = false;
     }
     
     private void FixedUpdate()
     {
-        if (Vector3.Distance(target, this.transform.position) <= float.Epsilon)
+        if (Vector3.Distance(target, this.transform.position) <= float.Epsilon && live)
         {
             Die();
             return;
         }
-        this.transform.position = Vector3.MoveTowards(this.transform.position, target, speed);
-        this.transform.rotation = Quaternion.LookRotation( target - this.transform.position , Vector3.up);
+
+        if (live)
+        {
+            this.transform.position = Vector3.MoveTowards(this.transform.position, target, speed);
+            this.transform.rotation = Quaternion.LookRotation( target - this.transform.position , Vector3.up);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

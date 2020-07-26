@@ -54,6 +54,7 @@ MonoBehaviour:
   target: {x: 0, y: 0, z: 0}
   lockOn: 0
   speed: 0.5
+  live: 1
 --- !u!54 &6527314730215784537
 Rigidbody:
   m_ObjectHideFlags: 0
