@@ -649,6 +649,10 @@ PrefabInstance:
       propertyPath: MapBoard
       value: 
       objectReference: {fileID: 643977488}
+    - target: {fileID: 1470918818, guid: 64f2c90167e4ead42bca810bb7807c81, type: 3}
+      propertyPath: speed
+      value: 0.04
+      objectReference: {fileID: 0}
     - target: {fileID: 6553203419093381610, guid: 64f2c90167e4ead42bca810bb7807c81,
         type: 3}
       propertyPath: m_Name
