@@ -14,6 +14,7 @@ public class Controllable : MonoBehaviour
     public float attack_cool = 0.15f;
     public GameObject Shield;
     public bool Shield_up;
+    public MapBoard MapBoard;
     void Start()
     {
         _summoner = GetComponent<Summoner>();
@@ -44,7 +45,7 @@ public class Controllable : MonoBehaviour
             if (movement.magnitude != 0)
             {
                 var pos = this.transform.position;
-                pos.y = 3.43f;
+
                 var next_pos = Vector3.MoveTowards(pos, pos + (movement * speed),
                     100.0f);
                 this.transform.position = next_pos;
@@ -108,5 +109,7 @@ public class Controllable : MonoBehaviour
         this.summon();
         this.attack();
         this.defence();
+        Debug.Log( MapBoard.isUpPlane(this.transform.position));
+
     }
 }
