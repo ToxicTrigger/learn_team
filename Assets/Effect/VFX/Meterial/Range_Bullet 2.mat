@@ -82,9 +82,11 @@ Material:
     - _DistortionStrength: 1
     - _DistortionStrengthScaled: 0
     - _DstBlend: 1
-    - _Emission: 1
+    - _Emission: 0.5
     - _EmissionEnabled: 0
     - _FlipbookMode: 0
+    - _Float0: 0
+    - _Float1: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -105,7 +107,7 @@ Material:
     - _SrcBlend: 5
     - _UVSec: 0
     - _ZWrite: 0
-    - __dirty: 0
+    - __dirty: 1
     m_Colors:
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
     - _Color: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 1}
