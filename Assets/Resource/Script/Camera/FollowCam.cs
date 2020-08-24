@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.TestTools;
 
 /**
  *  주의 사항.
@@ -16,6 +18,7 @@ public class FollowCam : MonoBehaviour
     public Transform target;
     public float move_speed = 1.0f;
     public bool stop = false ;
+    public MapBoard Board;
     
     // 맵의 경계를 어떻게 얻어올까?   
     void Start()
@@ -36,6 +39,6 @@ public class FollowCam : MonoBehaviour
 
     void Update()
     {
-        this.move();        
+        this.move();
     }
 }
