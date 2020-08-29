@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
 {
     public ParticleSystem hitEffect;
     public string target_tag;
-    public string ignore_tag;
+    public List<string> ignore_tags;
     public float Damage = 1.0f;
     public Vector3 target;
     public bool lockOn;
@@ -53,7 +53,12 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag.Equals(ignore_tag)) return;
+        foreach( var s in ignore_tags )
+        {
+            if( s.Equals( other.gameObject.tag ) ) return;
+        } 
+        
+        Debug.Log( other.gameObject.name );
         Die();
         
         var damageable = other.GetComponent<Damageable>();

@@ -49,7 +49,9 @@ MonoBehaviour:
   hitEffect: {fileID: 2862235216183481139, guid: d7a4bf2406cd6c44dbac75d78701ce2e,
     type: 3}
   target_tag: Enemy
-  ignore_tag: Player
+  ignore_tags:
+  - Player
+  - Attack
   Damage: 1
   target: {x: 0, y: 0, z: 0}
   lockOn: 0
