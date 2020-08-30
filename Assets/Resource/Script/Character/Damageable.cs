@@ -6,8 +6,19 @@ using UnityEngine.UI;
 public class Damageable : MonoBehaviour
 {
     public float Hp = 1;
-    public Text t_hp;
+    float MaxHp;
     public bool guard;
+
+    private void Awake() 
+    {
+        MaxHp = Hp;
+    }
+
+    public float getMaxHp()
+    {
+        return MaxHp;
+    }
+
     public void Die()
     {
         Destroy(gameObject);
@@ -16,10 +27,6 @@ public class Damageable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (t_hp)
-        {
-            t_hp.text = "hp : " + Hp;
-        }
         if (Hp <= 0)
         {
             Die();
