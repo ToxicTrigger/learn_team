@@ -13,7 +13,7 @@ public class Hpbar : MonoBehaviour
     void Start()
     {
         hp = hp ? hp : GetComponentInParent<Damageable>();
-        hp_shader = renderer.material;
+        hp_shader = renderer ? renderer.material : (image ? image.material : null);
     }
 
     void Update()
