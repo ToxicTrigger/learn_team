@@ -13,10 +13,27 @@ public class Bullet : MonoBehaviour
     public float speed = 3.0f;
     public bool live = true;
 
+    public bool move_done;
+    public bool move1, move2;
+    public Vector3 des1 , des2;
+
+    public float des_p_1 = 4;
+    public float des_p_2 = 2;
+
     IEnumerator hit( Damageable target )
     {
         target.Hp -= Damage;
         yield return new WaitForSeconds( 2.0f );
+    }
+
+    private void Start() 
+    {
+        des1 = this.transform.position;
+        des2 = target;
+
+        des1.y = des1.y + 10;
+
+        des2.y = target.y + 8;
     }
 
     void Die()
@@ -44,11 +61,31 @@ public class Bullet : MonoBehaviour
             return;
         }
 
-        if (live)
+        if (live && move_done)
         {
-            this.transform.position = Vector3.MoveTowards(this.transform.position, target, speed);
-            this.transform.rotation = Quaternion.LookRotation( target - this.transform.position , Vector3.up);
+            this.transform.position = Vector3.MoveTowards( this.transform.position, target, speed );
+            this.transform.rotation = Quaternion.LookRotation( target - this.transform.position , Vector3.up );
         }
+        else if( !move_done )
+        {
+            if( !move1 && Vector3.Distance( this.transform.position , this.des1 ) > float.Epsilon + 2 ) 
+            {
+                this.transform.position = Vector3.Lerp(this.transform.position , des1 , speed * 0.3f ) ;
+                this.transform.rotation = Quaternion.Lerp( this.transform.rotation, Quaternion.LookRotation( des1 - this.transform.position , Vector3.up ) , speed );
+            }else if(Vector3.Distance( this.transform.position , this.des1 ) <= float.Epsilon  + 2 ) {
+                move1 = true;
+            }
+
+            if( !move2 && move1 && Vector3.Distance( this.transform.position , this.des2 ) > float.Epsilon  + 2) 
+            {
+                this.transform.position = Vector3.Lerp(this.transform.position , des2 , speed * 1.3f ) ;
+                this.transform.rotation = Quaternion.Lerp( this.transform.rotation, Quaternion.LookRotation( des2 - this.transform.position , Vector3.up ) , speed );
+            }else if(move1 && Vector3.Distance( this.transform.position , this.des2 ) <= float.Epsilon + 2 ){
+                move2 = true;
+            }
+        }
+
+        if( move1 && move2 ) move_done = true;
     }
 
     private void OnTriggerEnter(Collider other)
