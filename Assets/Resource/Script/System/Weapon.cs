@@ -10,15 +10,10 @@ public class Weapon : MonoBehaviour
     public string target_tag, target_layer;
     public float cool_down = 0.2f;
     public float Damage = 1.0f;
+
+    public Element element;
+
     void Start()
-    {
-        
-    }
-
-
-    // Update is called once per frame
-
-    void Update()
     {
         
     }
